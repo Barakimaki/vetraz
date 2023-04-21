@@ -54,13 +54,19 @@ export const getCoursesState = async () => {
     categories: [],
     addresses: [],
     paymentTerms: [],
-
   };
 
   const coursesRef = doc(db, 'courses', 'courses');
   const coursesSnap = await getDoc(coursesRef);
   if (coursesSnap.exists()) {
-    coursesState.courses = coursesSnap.data().courses;
+    coursesState.courses = coursesSnap.data().courses
+      .sort((a, b) => {
+        if (a.courseName < b.courseName)
+          return -1;
+        if (a.courseName > b.courseName)
+          return 1;
+        return 0;
+      });
   }
   const commonRef = doc(db, 'courses', 'common');
   const commonSnap = await getDoc(commonRef);
@@ -88,8 +94,6 @@ export const addImg = async (id: string, imageFile: File | null): Promise<string
   } else {
     return Promise.resolve('');
   }
-
-
 };
 
 export const addCourseArray = async (course: ICourse) => {

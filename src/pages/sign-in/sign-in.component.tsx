@@ -12,7 +12,7 @@ const SignIn = () => {
 
   const login = async () => {
     try {
-      authStore.setUser(email, password);
+      await authStore.setUser(email, password);
     } catch (e) {
       console.log(e);
     }
@@ -23,7 +23,7 @@ const SignIn = () => {
       <Typography gutterBottom variant='h4' component='div'>
         Vetraz
       </Typography>
-      <form action="" className={style.form}>
+      <form action="">
         <FormControl error={inputError} variant="standard" sx={{m: 1, minWidth: 540}}>
           <Typography gutterBottom variant='h5' component='div'>
             Email

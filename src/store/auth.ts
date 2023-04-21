@@ -1,4 +1,4 @@
-import { makeAutoObservable, flow } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx';
 import { signIn } from '../utils/firebase/firebase.utils';
 import {User} from 'firebase';
 
@@ -7,13 +7,16 @@ class Auth {
     constructor() {
         makeAutoObservable(this, {}, { deep: true, autoBind: true })
     }
-    setUser=flow(function* (email: String, password: String){
+    async setUser(email: String, password: String){
         try {
-            this.user = yield signIn(email, password)
+            const user = await signIn(email, password)
+            runInAction(() => {
+                this.user = user
+            })
         } catch (e) {
-            console.log(e);
+            return e
         }
-    })
+    }
 }
 
 const authStore = new Auth()
