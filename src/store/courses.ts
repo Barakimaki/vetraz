@@ -1,5 +1,11 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { addCourseArray, getCoursesState, removeCourseArray, setCommon } from '../utils/firebase/firebase.utils';
+import {
+  addCourseArray,
+  editCourseArray,
+  getCoursesState,
+  removeCourseArray,
+  setCommon,
+} from '../utils/firebase/firebase.utils';
 
 export interface ICourse {
   id: string
@@ -89,16 +95,12 @@ class Courses {
     }
   }
 
-  async updateCourse(newCourse: ICourse, oldCourse: ICourse) {
+  async updateCourse(updatedCourse: ICourse, oldCourse: ICourse) {
     try {
-      await removeCourseArray(oldCourse, false);
-      await addCourseArray(newCourse);
+      await editCourseArray(updatedCourse, oldCourse);
+      const index = this.courses.findIndex(c => c.id === oldCourse.id);
       runInAction(() => {
-        this.courses.forEach((course, index) => {
-          if (course.id === newCourse.id) {
-            this.courses[index] = newCourse;
-          }
-        });
+        this.courses[index] = updatedCourse;
       });
     } catch (e) {
       console.log(e);

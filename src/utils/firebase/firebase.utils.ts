@@ -60,13 +60,6 @@ export const getCoursesState = async () => {
   const coursesSnap = await getDoc(coursesRef);
   if (coursesSnap.exists()) {
     coursesState.courses = coursesSnap.data().courses
-      .sort((a, b) => {
-        if (a.courseName < b.courseName)
-          return -1;
-        if (a.courseName > b.courseName)
-          return 1;
-        return 0;
-      });
   }
   const commonRef = doc(db, 'courses', 'common');
   const commonSnap = await getDoc(commonRef);
@@ -103,6 +96,16 @@ export const addCourseArray = async (course: ICourse) => {
   });
 
 };
+
+export const editCourseArray = async (updatedCourse: ICourse, oldCourse: ICourse) => {
+  const coursesRef = doc(db, 'courses', 'courses');
+  await updateDoc(coursesRef, {
+    courses: arrayRemove(oldCourse)
+  })
+  await updateDoc(coursesRef, {
+    courses: arrayUnion(updatedCourse)
+  })
+}
 
 export const removeCourseArray = async (course: ICourse, isDeleteImage: boolean) => {
 

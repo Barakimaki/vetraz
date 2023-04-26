@@ -3,7 +3,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import DeleteButton from '../deleteTaskButton/DeleteButton'
+import DeleteButton from '../deleteTaskButton/delete-button'
 import { Button, Input } from '@mui/material'
 import coursesStore, { Common } from '../../store/courses';
 

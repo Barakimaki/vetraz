@@ -2,7 +2,7 @@ import { Card, CardActions, CardContent, CardMedia, Typography } from '@mui/mate
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import style from './course.module.scss';
-import DeleteButton from '../deleteTaskButton/DeleteButton';
+import DeleteButton from '../deleteTaskButton/delete-button';
 import { useNavigate } from 'react-router-dom';
 import { Schedule } from '@mui/icons-material';
 import coursesStore, { ICourse } from '../../store/courses';

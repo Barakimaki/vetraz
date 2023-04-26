@@ -5,9 +5,16 @@ import { observer } from 'mobx-react-lite';
 import Courses from './pages/courses/courses.component';
 import SignIn from './pages/sign-in/sign-in.component';
 import Settings from './pages/settings/settings.component';
+import Schedule from './pages/schedule/schedule.component';
+import CourseForm from './pages/course-form/course-form.component';
+import { useEffect } from 'react';
+import coursesStore from './store/courses';
 
 const App = observer(() => {
 
+  useEffect(() => {
+    coursesStore.getCoursesState()
+  }, []);
 
   return (
     <div className='App'>
@@ -16,13 +23,13 @@ const App = observer(() => {
           ?
           <>
             <Route path='/*' element={<Courses />} />
-            {/*<Route path='/edit/:id' element={<CourseForm />} />*/}
-            {/*<Route path='/add' element={<CourseForm />} />*/}
-            {/*<Route path='/schedule/:id' element={<Schedule />} />*/}
+            <Route path='/edit/:id' element={<CourseForm />} />
+            <Route path='/add' element={<CourseForm />} />
+            <Route path='/schedule/:id' element={<Schedule />} />
             <Route path='/settings' element={<Settings />} />
           </>
           :
-            <Route path='/*' element={<SignIn />} />
+          <Route path='/*' element={<SignIn />} />
         }
       </Routes>
     </div>
