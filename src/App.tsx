@@ -13,8 +13,10 @@ import coursesStore from './store/courses';
 const App = observer(() => {
 
   useEffect(() => {
-    coursesStore.getCoursesState()
-  }, []);
+    if(authStore.user){
+      coursesStore.getCoursesState();
+    }
+  }, [authStore.user]);
 
   return (
     <div className='App'>
