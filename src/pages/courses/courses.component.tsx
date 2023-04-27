@@ -10,9 +10,6 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Course from '../../components/course/course.component';
 
 const Courses = observer(() => {
-  // useEffect(() => {
-  //   coursesStore.getCoursesState()
-  // }, []);
 
   let courses = coursesStore.courses
   const [category, setCategory] = useState('')
