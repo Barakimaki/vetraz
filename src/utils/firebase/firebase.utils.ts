@@ -28,16 +28,12 @@ const db = getFirestore(app);
 export const storage = getStorage(app);
 
 const auth = getAuth();
-export const signIn = async (email: String, password: String) => {
+export const signIn = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-
-    console.log(errorCode);
-    console.log(errorMessage);
+    console.log(error);
   }
 };
 
@@ -59,7 +55,7 @@ export const getCoursesState = async () => {
   const coursesRef = doc(db, 'courses', 'courses');
   const coursesSnap = await getDoc(coursesRef);
   if (coursesSnap.exists()) {
-    coursesState.courses = coursesSnap.data().courses
+    coursesState.courses = coursesSnap.data().courses;
   }
   const commonRef = doc(db, 'courses', 'common');
   const commonSnap = await getDoc(commonRef);
@@ -83,7 +79,7 @@ export const addImg = async (id: string, imageFile: File | null): Promise<string
   const imageRef = ref(storage, id);
   if (imageFile) {
     await uploadBytes(imageRef, imageFile);
-    return await getDownloadURL(imageRef)
+    return await getDownloadURL(imageRef);
     return Promise.resolve('');
   }
 };
@@ -99,12 +95,12 @@ export const addCourseArray = async (course: ICourse) => {
 export const editCourseArray = async (updatedCourse: ICourse, oldCourse: ICourse) => {
   const coursesRef = doc(db, 'courses', 'courses');
   await updateDoc(coursesRef, {
-    courses: arrayRemove(oldCourse)
-  })
+    courses: arrayRemove(oldCourse),
+  });
   await updateDoc(coursesRef, {
-    courses: arrayUnion(updatedCourse)
-  })
-}
+    courses: arrayUnion(updatedCourse),
+  });
+};
 
 export const removeCourseArray = async (course: ICourse, isDeleteImage: boolean) => {
 
