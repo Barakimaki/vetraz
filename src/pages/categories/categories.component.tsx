@@ -9,19 +9,18 @@ const Categories = () => {
 
   return (
     <div className={styles.categories}>
-      {categories.map(([category, name]) => {
-        return <Card key={category} sx={{ minHeight: 120}}
-                     className={styles.category}
-                     onClick={() => {
-                       navigate(`/courses/${category}`);
-                     }}>
+      {categories.map(([category, name]) => <Card key={category} sx={{ minHeight: 120 }}
+                                                  className={styles.category}
+                                                  onClick={() => {
+                                                    navigate(`/courses/${category}`);
+                                                  }}>
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
               {name}
             </Typography>
           </CardContent>
-        </Card>;
-      })}
+        </Card>,
+      )}
     </div>
   );
 };

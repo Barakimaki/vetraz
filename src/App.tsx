@@ -32,10 +32,9 @@ const App = observer(() => {
           <>
             <Route path='/*' element={<Categories />}/>
             <Route path='/courses/:category' element={<Courses />} />
-            <Route path='/edit/:id' element={<CourseForm />} />
+            <Route path='/edit/:category/:id' element={<CourseForm />} />
             <Route path='/add' element={<CourseForm />} />
-            <Route path='/schedule/:id' element={<Schedule />} />
-            <Route path='/settings' element={<Settings />} />
+            {/*<Route path='/schedule/:id' element={<Schedule />} />*/}
           </>
           :
           <Route path='/*' element={<SignIn />} />

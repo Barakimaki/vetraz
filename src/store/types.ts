@@ -1,22 +1,7 @@
-// export interface ICourse {
-//   id: string
-//   address: string
-//   contactPhone: string
-//   courseName: string
-//   category: string
-//   description: string
-//   imageUrl: string
-//   paymentTerm: string
-//   studentsAge?: {
-//     from: number | null
-//     to: number | null
-//   }
-//   teacherName: string,
-//   schedule: IGroup[]
-// }
-
 export interface ICourse {
   id: string;
+  category: string;
+  name: string;
   contact_phone: string;
   department: string;
   description: string;
@@ -27,7 +12,6 @@ export interface ICourse {
     contact_phone: string;
     room_number: string;
   };
-  name: string;
   payment_term: string;
   program: string;
   program_duration: string;
@@ -57,15 +41,6 @@ export interface ILesson {
   to: string;
 }
 
-export interface IDay {
-  lessons: ILesson[];
-}
-
-export interface IGroup {
-  groupName: string;
-  week: IDay[];
-}
-
 export type Common = {
   categories: string[],
   addresses: string[],
@@ -85,5 +60,35 @@ export const categories = [
   ['music_creativity', 'МУЗЫКАЛЬНОЕ ТВОЧЕСТВО'],
   ['singing_direction', 'ВОКАЛЬНОЕ ТВОРЧЕСТВО'],
   ['sport_direction', 'СПОРТИВНОЕ НАПРАВЛЕНИЕ'],
-  ['technical_creativity', 'ТЕХНИЧЕСКОЕ ТВОРЧЕСТВО']
-]
+  ['technical_creativity', 'ТЕХНИЧЕСКОЕ ТВОРЧЕСТВО'],
+];
+
+export const categoriesKeys = [
+  'art_creativity',
+  'choreographic_creativity',
+  'classes_for_preschoolers',
+  'decoration_creativity',
+  'ecology_and_countries',
+  'foreign_languages',
+  'intellectual_creativity',
+  'it_technology',
+  'music_creativity',
+  'singing_direction',
+  'sport_direction',
+  'technical_creativity',
+];
+
+export const categoriesValues = [
+  'ИЗОБРАЗИТЕЛЬНОЕ ТВОРЧЕСТВО',
+  'ХОРЕОГРАФИЧЕСКОЕ ТВОРЧЕСТВО',
+  'ЗАНЯТИЯ ДЛЯ ДОШКОЛЬНИКОВ',
+  'ДЕКОРАТИВНОЕ ТВОРЧЕСТВО',
+  'ЭКОЛОГИЯ И КРАЕВЕДЕНИЕ',
+  'ИНОСТРАННЫЕ ЯЗЫКИ',
+  'ИНТЕЛЛЕКТУАЛЬНОЕ ТВОРЧЕСТВО',
+  'IT-ТЕХНОЛОГИИ',
+  'МУЗЫКАЛЬНОЕ ТВОЧЕСТВО',
+  'ВОКАЛЬНОЕ ТВОРЧЕСТВО',
+  'СПОРТИВНОЕ НАПРАВЛЕНИЕ',
+  'ТЕХНИЧЕСКОЕ ТВОРЧЕСТВО',
+];

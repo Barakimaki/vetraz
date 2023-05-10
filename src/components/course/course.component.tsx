@@ -39,7 +39,7 @@ const Course = ({ course }: Props) => {
           Контактный телефон: {course.contact_phone}
         </Typography>
         <Typography variant='body1' color='text.primary'>
-          Направление: {course.department}
+          Отделение: {course.department}
         </Typography>
         <Typography variant='body2' color='text.primary'>
           Возраст обучающихся: {course.students_age?.from}-{course.students_age?.to}
@@ -79,7 +79,7 @@ const Course = ({ course }: Props) => {
         <IconButton color='primary'
                     title='Редактировать'
                     onClick={() => {
-                      navigate(`/edit/${course.id}`);
+                      navigate(`/edit/${course.category}/${course.id}`);
                     }}>
           <EditIcon />
         </IconButton>

@@ -26,11 +26,11 @@ const Schedule = () => {
   }
   let course = coursesStore.courses.find(course => course.id === id);
 
-  let [schedule, setSchedule] = useState(course?.schedule || [] as IGroup[]);
+  let [schedule, setSchedule] = useState(course?.groups_schedule || [] as IGroup[]);
 
   useEffect(() => {
     if (course) {
-      setSchedule(course.schedule);
+      setSchedule(course.groups_schedule);
     }
   }, [course]);
 
@@ -98,10 +98,10 @@ const Schedule = () => {
         Назад
       </Button>
       <div>
-        <h1>{course?.courseName}</h1>
+        <h1>{course?.name}</h1>
         {schedule.map((group, groupIndex) => {
           return <div>
-            <h2>{group.groupName}
+            <h2>{group.group_name}
               <IconButton color='error'
                           title='Удалить группу'
                           onClick={() => deleteGroup(groupIndex)}

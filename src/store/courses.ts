@@ -30,18 +30,18 @@ class Courses {
   async addCourse(course: ICourse) {
     try {
       await addCourseArray(course);
-      runInAction(() => {
-        this.courses.push(course);
-      });
+      // runInAction(() => {
+      //   this.courses.push(course);
+      // });
     } catch (e) {
       console.log(e);
     }
   }
 
-  async updateCourse(updatedCourse: ICourse, oldCourse: ICourse) {
+  async updateCourse(updatedCourse: ICourse, oldCategory: string) {
     try {
-      await editCourseArray(updatedCourse, oldCourse);
-      const index = this.courses.findIndex(c => c.id === oldCourse.id);
+      await editCourseArray(updatedCourse, oldCategory);
+      const index = this.courses.findIndex(c => c.id === updatedCourse.id);
       runInAction(() => {
         this.courses[index] = updatedCourse;
       });
