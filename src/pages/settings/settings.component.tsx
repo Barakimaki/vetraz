@@ -4,8 +4,9 @@ import { Button } from '@mui/material';
 import style from './settings.module.scss';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
-import coursesStore, { Common } from '../../store/courses';
+import coursesStore from '../../store/courses';
 import { observer } from 'mobx-react-lite';
+import { Common } from '../../store/types';
 
 const Settings = observer(() => {
 

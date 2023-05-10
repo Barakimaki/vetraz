@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import { Button } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { ICourse } from '../../store/courses';
+import { ICourse } from '../../store/types';
 
 
 type Props = {

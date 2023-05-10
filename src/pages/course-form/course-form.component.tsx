@@ -7,8 +7,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { addImg } from '../../utils/firebase/firebase.utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import style from './course-form.module.scss';
-import coursesStore, { ICourse } from '../../store/courses';
+import coursesStore from '../../store/courses';
 import { observer } from 'mobx-react-lite';
+import { ICourse } from '../../store/types';
 
 
 const CourseForm = observer(() => {

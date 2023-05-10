@@ -5,8 +5,10 @@ import style from './course.module.scss';
 import DeleteButton from '../deleteTaskButton/delete-button';
 import { useNavigate } from 'react-router-dom';
 import { Schedule } from '@mui/icons-material';
-import coursesStore, { ICourse } from '../../store/courses';
-
+import coursesStore from '../../store/courses';
+import { ICourse } from '../../store/types';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import DoNotDisturbAltRoundedIcon from '@mui/icons-material/DoNotDisturbAltRounded';
 
 type Props = {
   course: ICourse
@@ -26,33 +28,51 @@ const Course = ({ course }: Props) => {
       <CardMedia
         component='img'
         height='140'
-        image={course.imageUrl}
+        image={course.image_url}
         alt=''
       />
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>
-          {course.courseName}
+          {course.name}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          Контактный телефон: {course.contactPhone}
+          Контактный телефон: {course.contact_phone}
         </Typography>
         <Typography variant='body1' color='text.primary'>
-          Направление: {course.category}
+          Направление: {course.department}
         </Typography>
         <Typography variant='body2' color='text.primary'>
-          Возраст обучающихся: {course.studentsAge?.from}-{course.studentsAge?.to}
+          Возраст обучающихся: {course.students_age?.from}-{course.students_age?.to}
+        </Typography>
+        <Typography variant='body2' color='text.primary'>
+          Продолжительность: {course.program_duration}
+        </Typography>
+        <Typography variant='body2' color='text.primary'>
+          {course.program}
+        </Typography>
+        <Typography variant='body2' color='text.primary'>
+          Набор: {course.recruiting_is_open ? <CheckCircleRoundedIcon color='success'/> : <DoNotDisturbAltRoundedIcon color='error'/> }
         </Typography>
         <Typography variant='body2' color='text.secondary'>
           {course.description}
         </Typography>
         <Typography variant='body2' color='error.main'>
-          {course.paymentTerm}
+          {course.payment_term}
         </Typography>
         <Typography variant='body1' color='text.primary'>
-          {course.teacherName}
+          {course.teacher_name}
         </Typography>
         <Typography variant='body1' color='text.secondary'>
-          Адрес: {course.address}
+          Местонахождение
+        </Typography>
+        <Typography variant='body1' color='text.secondary'>
+          Адрес: {course.location_info.address}
+        </Typography>
+        <Typography variant='body1' color='text.secondary'>
+          Телефон: {course.location_info.contact_phone}
+        </Typography>
+        <Typography variant='body1' color='text.secondary'>
+          Кабинет: {course.location_info.room_number}
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={style.parentFlexSplit}>

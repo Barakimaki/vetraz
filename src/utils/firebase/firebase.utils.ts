@@ -4,23 +4,28 @@ import {
   getFirestore,
   doc,
   getDoc,
+  query,
   updateDoc,
   arrayUnion,
   arrayRemove,
+  collection,
+  getDocs,
 } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { Common, ICourse } from '../../store/courses';
-let firebaseConfig
-if (process.env.NETLIFY === 'true') {
-  firebaseConfig = {
-    apiKey: process.env.VITE_FIREBASE_API_KEY,
-    authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.VITE_FIREBASE_APP_ID,
-    measurementId: process.env.VITE_FIREBASE_MEASURE_ID,
-  };
+import { ICourse } from '../../store/types';
+
+let firebaseConfig;
+
+  if (process.env.NETLIFY === 'true') {
+    firebaseConfig = {
+      apiKey: process.env.VITE_FIREBASE_API_KEY,
+      authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.VITE_FIREBASE_APP_ID,
+      measurementId: process.env.VITE_FIREBASE_MEASURE_ID,
+    };
 } else {
   firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -60,40 +65,20 @@ export const signIn = async (email: string, password: string) => {
 
 export type CoursesState = {
   courses: ICourse[]
-  categories: string[]
-  addresses: string[]
-  paymentTerms: string[]
 }
 
-export const getCoursesState = async () => {
-  let coursesState: CoursesState = {
-    courses: [],
-    categories: [],
-    addresses: [],
-    paymentTerms: [],
-  };
+export const getCoursesState = async (category: string) => {
+  let courses: ICourse[] = [];
 
-  const coursesRef = doc(db, 'courses', 'courses');
-  const coursesSnap = await getDoc(coursesRef);
-  if (coursesSnap.exists()) {
-    coursesState.courses = coursesSnap.data().courses;
-  }
-  const commonRef = doc(db, 'courses', 'common');
-  const commonSnap = await getDoc(commonRef);
-  if (commonSnap.exists()) {
-    let common = commonSnap.data();
-    coursesState.categories = common.categories;
-    coursesState.addresses = common.addresses;
-    coursesState.paymentTerms = common.paymentTerms;
-  }
-  return coursesState;
+  const q = query(collection(db, 'categories', category, 'courses'));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    courses.push({ id: doc.id, ...doc.data() } as ICourse);
+  });
+
+  return courses;
 };
 
-export const setCommon = async (common: Common) => {
-  const commonRef = doc(db, 'courses', 'common');
-
-  await updateDoc(commonRef, common);
-};
 
 export const addImg = async (id: string, imageFile: File | null): Promise<string | void> => {
 
@@ -101,7 +86,7 @@ export const addImg = async (id: string, imageFile: File | null): Promise<string
   if (imageFile) {
     await uploadBytes(imageRef, imageFile);
     return await getDownloadURL(imageRef);
-    return Promise.resolve('');
+    // return Promise.resolve('');
   }
 };
 
@@ -127,7 +112,7 @@ export const removeCourseArray = async (course: ICourse, isDeleteImage: boolean)
 
   const coursesRef = doc(db, 'courses', 'courses');
 
-  if (course.imageUrl && isDeleteImage) {
+  if (course.image_url && isDeleteImage) {
     const imageRef = ref(storage, course.id);
     await deleteObject(imageRef);
   }

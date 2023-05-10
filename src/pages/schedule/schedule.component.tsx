@@ -5,7 +5,8 @@ import style from './schedule.module.scss';
 import FormControl from '@mui/material/FormControl';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
-import coursesStore, { ICourse, IGroup, ILesson } from '../../store/courses';
+import coursesStore from '../../store/courses';
+import { ICourse, IGroup, ILesson } from '../../store/types';
 
 
 let days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];

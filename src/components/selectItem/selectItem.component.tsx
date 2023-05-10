@@ -5,7 +5,8 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import DeleteButton from '../deleteTaskButton/delete-button'
 import { Button, Input } from '@mui/material'
-import coursesStore, { Common } from '../../store/courses';
+import coursesStore from '../../store/courses';
+import { Common } from '../../store/types';
 
 type Props = {
 	item: string

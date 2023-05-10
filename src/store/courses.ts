@@ -4,80 +4,23 @@ import {
   editCourseArray,
   getCoursesState,
   removeCourseArray,
-  setCommon,
 } from '../utils/firebase/firebase.utils';
+import { ICourse } from './types';
 
-export interface ICourse {
-  id: string
-  address: string
-  contactPhone: string
-  courseName: string
-  category: string
-  description: string
-  imageUrl: string
-  paymentTerm: string
-  studentsAge?: {
-    from: number | null
-    to: number | null
-  }
-  teacherName: string,
-  schedule: IGroup[]
-}
-
-export interface ILesson {
-  from: string;
-  to: string;
-}
-
-export interface IDay {
-  lessons: ILesson[];
-}
-
-
-export interface IGroup {
-  groupName: string;
-  week: IDay[];
-}
-
-
-export type Common = {
-  categories: string[],
-  addresses: string[],
-  paymentTerms: string[]
-}
 
 class Courses {
 
   courses: ICourse[] = [];
-  categories: string[] = [];
-  addresses: string[] = [];
-  paymentTerms: string[] = [];
 
   constructor() {
     makeAutoObservable(this, {}, { deep: true, autoBind: true });
   }
 
-  async getCoursesState() {
+  async getCoursesState(category: string) {
     try {
-      const { categories, addresses, paymentTerms, courses } = await getCoursesState();
+      const courses = await getCoursesState(category);
       runInAction(() => {
-        this.categories = categories;
-        this.addresses = addresses;
-        this.paymentTerms = paymentTerms;
         this.courses = courses;
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async updateCommon(common: Common) {
-    try {
-      await setCommon(common);
-      runInAction(() => {
-        this.categories = common.categories;
-        this.addresses = common.addresses;
-        this.paymentTerms = common.paymentTerms;
       });
     } catch (e) {
       console.log(e);
