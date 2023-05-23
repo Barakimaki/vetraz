@@ -2,14 +2,13 @@ import React, { ChangeEvent, useState } from 'react';
 import { FormHelperText, Typography, Input, TextField, Button } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import SelectItem from '../../components/selectItem/selectItem.component';
 import { v4 as uuidv4 } from 'uuid';
 import { addImg } from '../../utils/firebase/firebase.utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import style from './course-form.module.scss';
 import coursesStore from '../../store/courses';
 import { observer } from 'mobx-react-lite';
-import {  categoriesKeys, categoriesValues, ICourse } from '../../store/types';
+import { categoriesKeys, categoriesValues, ICourse } from '../../store/types';
 import MenuItem from '@mui/material/MenuItem';
 
 
@@ -29,26 +28,40 @@ const CourseForm = observer(() => {
 
   let course = coursesStore.courses.find(course => course.id === id);
 
+  let [imageError, setImageError] = useState({ isError: false, errorMessage: '' });
 
-  let [inputError, setInputError] = useState(false);
   let [category, setCategory] = useState(course?.category || categoriesKeys[0]);
+
   let [name, setName] = useState(course?.name || '');
+  let [nameError, setNameError] = useState({ isError: false, errorMessage: '' });
+
   let [contact_phone, setContact_phone] = useState(course?.contact_phone || '');
-  let [department, setDepartment] = useState(course?.category || '');
+
+  let [department, setDepartment] = useState(course?.department || 'Отделение хореографии');
+
   let [description, setDescription] = useState(course?.description || '');
+  let [descriptionError, setDescriptionError] = useState({ isError: false, errorMessage: '' });
+
   let [location_address, setLocation_address] = useState(course?.location_info.address || '');
+
   let [location_contact_phone, setLocation_contact_phone] = useState(course?.location_info.contact_phone || '');
+
   let [location_room_number, setLocation_room_number] = useState(course?.location_info.room_number || '');
-  let [payment_term, setPayment_term] = useState(course?.payment_term || '');
+
+  let [payment_term, setPayment_term] = useState(course?.payment_term || 'первый год на платной основе');
+
   let [program, setProgram] = useState(course?.program || '');
+
   let [program_duration, setProgram_duration] = useState(course?.program_duration || '');
+
   let [recruiting_is_open, setRecruiting_is_open] = useState(course?.recruiting_is_open || true);
+
   let [students_age, setStudents_age] = useState(course?.students_age || { from: 1, to: 99 });
+
   let [teacher_name, setTeacher_name] = useState(course?.teacher_name || '');
 
+
   let [courseId, setCourseId] = useState(course?.id || uuidv4());
-
-
   let [imageFile, setImageFile] = useState(null as (null | File));
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,20 +100,29 @@ const CourseForm = observer(() => {
   };
 
   const handleSubmitForm = async () => {
-
-    if (name.length > 0) {
-      if (imageFile) {
-        let url = await addImg(courseId, imageFile);
-        if (url) {
-          submitForm(url);
-        }
-
-      } else {
-        submitForm();
-      }
-    } else {
-      setInputError(true);
+    if (name.length < 1) {
+      setNameError({ isError: true, errorMessage: 'Название курса не может быть пустым' });
     }
+    if(description.length < 1){
+      setDescriptionError({isError: true, errorMessage: 'Описание не может быть пустым'})
+    }
+
+    // if(name.length < 1){
+    //   setNameError({isError: true, errorMessage: 'Название курса не может быть пустым'})
+    // }
+    // if (name.length > 0) {
+    //   if (imageFile) {
+    //     let url = await addImg(courseId, imageFile);
+    //     if (url) {
+    //       submitForm(url);
+    //     }
+    //
+    //   } else {
+    //     submitForm();
+    //   }
+    // } else {
+    //   setInputError(true);
+    // }
   };
 
 
@@ -113,33 +135,31 @@ const CourseForm = observer(() => {
         <Typography gutterBottom variant='h5' component='div'>
           Название курса
         </Typography>
-        <FormControl error={inputError} variant='standard' sx={{ m: 1, minWidth: 620 }}>
+        <FormControl error={nameError.isError} variant='standard' sx={{ m: 1, minWidth: 620 }}>
           <Input placeholder='Название курса' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setInputError(false);
-            setName(e.target.value);
+            if (e.target.value.length > 300) {
+              setNameError({ isError: true, errorMessage: 'Название курса должно быть не более 300 символов' });
+            } else {
+              setNameError({ isError: false, errorMessage: '' });
+              setName(e.target.value);
+            }
           }} defaultValue={name} />
-          {inputError &&
-            <FormHelperText id='component-error-text'>Название не может быть пустым</FormHelperText>}
+          {nameError.isError &&
+            <FormHelperText id='component-error-text'>{nameError.errorMessage}</FormHelperText>}
         </FormControl>
         <Typography gutterBottom variant='h5' component='div'>
           Направление
         </Typography>
-        {/*<SelectItem item={categoriesValues[categoriesKeys.findIndex(cat => category === cat)]}*/}
-        {/*            items={categoriesValues}*/}
-        {/*            name={'Направление'}*/}
-        {/*            handleChange={(event: SelectChangeEvent) => setCategory(categoriesKeys[categoriesValues.findIndex(cat => event.target.value === cat)])}*/}
-        {/*            size={320}*/}
-        {/*/>*/}
         <FormControl sx={{ m: 1, minWidth: 320 }} size='small'>
           <Select
             defaultValue={categoriesValues[categoriesKeys.findIndex(cat => category === cat)]}
             value={categoriesValues[categoriesKeys.findIndex(cat => category === cat)]}
-            label={categoriesValues[categoriesKeys.findIndex(cat => category === cat)]}
             onChange={(event: SelectChangeEvent) => setCategory(categoriesKeys[categoriesValues.findIndex(cat => event.target.value === cat)])}
           >
             {categoriesValues.map(item => <MenuItem key={item} value={item}>{item} </MenuItem>)}
           </Select>
         </FormControl>
+
         <Typography gutterBottom variant='h6' component='div'>
           Изображение
         </Typography>
@@ -166,40 +186,61 @@ const CourseForm = observer(() => {
         <Typography gutterBottom variant='h6' component='div'>
           Отделение
         </Typography>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 240 }}>
-          <Input placeholder='Отделение' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setDepartment(e.target.value);
-          }} defaultValue={department} />
+        <FormControl sx={{ m: 1, minWidth: 600 }} size='small'>
+          <Select
+            defaultValue={department}
+            value={department}
+            onChange={(event: SelectChangeEvent) => setDepartment(event.target.value)}
+          >
+            <MenuItem value={'Отделение хореографии'}>Отделение хореографии</MenuItem>
+            <MenuItem value={'Отделение декоративно-прикладного творчества и ИЗО'}>Отделение декоративно-прикладного творчества и ИЗО </MenuItem>
+            <MenuItem value={'Отделение туристско-краеведческой и экологической работы'}>Отделение туристско-краеведческой и экологической работы</MenuItem>
+            <MenuItem value={'Отделение инструментальной музыки и вокального творчества'}>Отделение инструментальной музыки и вокального творчества</MenuItem>
+            <MenuItem value={'Отделение культурно-досуговой деятельности'}>Отделение культурно-досуговой деятельности</MenuItem>
+            <MenuItem value={'Отделение развивающего обучения'}>Отделение развивающего обучения</MenuItem>
+            <MenuItem value={'Отделение интеллектуального и технического творчества'}>Отделение интеллектуального и технического творчества</MenuItem>
+            <MenuItem value={'Отделение народного творчества'}>Отделение народного творчества</MenuItem>
+          </Select>
         </FormControl>
 
 
         <Typography gutterBottom variant='h6' component='div'>
           Описание
         </Typography>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 720 }}>
+        <FormControl  error={descriptionError.isError} variant='standard' sx={{ m: 1, minWidth: 720 }}>
           <TextField
             multiline
             rows={4}
             defaultValue={description}
             variant='standard'
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setDescriptionError({ isError: false, errorMessage: '' });
               setDescription(e.target.value);
             }}
           />
+          {descriptionError.isError &&
+            <FormHelperText id='component-error-text'>{descriptionError.errorMessage}</FormHelperText>}
         </FormControl>
 
         <Typography gutterBottom variant='h6' component='div'>
           Условие оплаты
         </Typography>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 240 }}>
-          <Input placeholder='Условие оплаты' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setPayment_term(e.target.value);
-          }} defaultValue={payment_term} />
+        <FormControl sx={{ m: 1, minWidth: 320 }} size='small'>
+          <Select
+            defaultValue={payment_term}
+            value={payment_term}
+            onChange={(event: SelectChangeEvent) => setPayment_term(event.target.value)}
+          >
+            <MenuItem value={'первый год на платной основе'}>первый год на платной основе</MenuItem>
+            <MenuItem value={'обучение на безвозмездной основе'}>обучение на безвозмездной основе</MenuItem>
+            <MenuItem value={'обучение на платной основе'}>обучение на платной основе</MenuItem>
+          </Select>
         </FormControl>
+
         <Typography gutterBottom variant='h6' component='div'>
           Программа
         </Typography>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 240 }}>
+        <FormControl variant='standard' sx={{ m: 1, minWidth: 520 }}>
           <Input placeholder='Программа' onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setProgram(e.target.value);
           }} defaultValue={program} />

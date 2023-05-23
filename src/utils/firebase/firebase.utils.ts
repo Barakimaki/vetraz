@@ -10,7 +10,7 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { Group, ICourse } from '../../store/types';
+import { IGroup, ICourse } from '../../store/types';
 
 let firebaseConfig;
 

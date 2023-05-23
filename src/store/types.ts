@@ -5,7 +5,7 @@ export interface ICourse {
   contact_phone: string;
   department: string;
   description: string;
-  groups_schedule: Group[];
+  groups_schedule: IGroup[];
   image_url: string;
   location_info: {
     address: string;
@@ -23,7 +23,7 @@ export interface ICourse {
   teacher_name: string;
 }
 
-export interface Group {
+export interface IGroup {
   group_name: string,
   weekly_schedule: {
     monday_lessons?: string[]
