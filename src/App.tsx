@@ -7,8 +7,7 @@ import SignIn from './pages/sign-in/sign-in.component';
 // import Schedule from './pages/schedule/schedule.component';
 import CourseForm from './pages/course-form/course-form.component';
 import Categories from './pages/categories/categories.component';
-import IconButton from '@mui/material/IconButton';
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+
 
 const App = observer(() => {
 
@@ -16,13 +15,7 @@ const App = observer(() => {
 
   return (
     <div className='App'>
-      <div>
-        <IconButton color='primary' size='large' title='Добавить курс'>
-          <AddCircleOutlineRoundedIcon onClick={() => {
-            navigate('/add');
-          }} />
-        </IconButton>
-      </div>
+
       <Routes>
         {authStore.user
           ?

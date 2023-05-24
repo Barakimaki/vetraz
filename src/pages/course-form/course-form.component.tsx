@@ -97,11 +97,11 @@ const CourseForm = observer(() => {
       payment_term,
       program,
       program_duration: getYearsString(program_duration),
-      recruiting_is_open,
+      recruiting_is_open: recruiting_is_open ? true : false,
       students_age,
       teacher_name,
     };
-
+    console.log(newCourseData);
     course
       ? coursesStore.updateCourse(newCourseData as ICourse, oldCategory)
       : coursesStore.addCourse(newCourseData as ICourse);

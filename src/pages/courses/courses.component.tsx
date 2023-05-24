@@ -6,6 +6,8 @@ import { observer } from 'mobx-react-lite';
 import Course from '../../components/course/course.component';
 import { Button, Typography } from '@mui/material';
 import { categories } from '../../store/types';
+import IconButton from '@mui/material/IconButton';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
 const Courses = observer(() => {
   let category: string = '';
@@ -24,6 +26,13 @@ const Courses = observer(() => {
 
   return (
     <div>
+      <div>
+        <IconButton color='primary' size='large' title='Добавить курс'>
+          <AddCircleOutlineRoundedIcon onClick={() => {
+            navigate('/add');
+          }} />
+        </IconButton>
+      </div>
       <Typography className={styles.category} gutterBottom variant='h5' component='div'>
         {categories[categories.findIndex(([cat, nam]) => cat === category )][1]}
       </Typography>
