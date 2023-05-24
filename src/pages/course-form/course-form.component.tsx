@@ -32,7 +32,6 @@ const CourseForm = observer(() => {
   let course = coursesStore.courses.find(course => course.id === id);
 
 
-
   let [category, setCategory] = useState(course?.category || categoriesKeys[0]);
 
   let [name, setName] = useState(course?.name || '');
@@ -57,7 +56,7 @@ const CourseForm = observer(() => {
 
   let [program, setProgram] = useState(course?.program || '');
 
-  let [program_duration, setProgram_duration] = useState(Number(course?.program_duration.split(' ')[0])|| 1);
+  let [program_duration, setProgram_duration] = useState(Number(course?.program_duration.split(' ')[0]) || 1);
 
   let [recruiting_is_open, setRecruiting_is_open] = useState(course?.recruiting_is_open);
 
@@ -74,12 +73,24 @@ const CourseForm = observer(() => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setImageError({isError: false, errorMessage: ''})
+      setImageError({ isError: false, errorMessage: '' });
       setImageFile(e.target.files[0]);
     }
   };
 
   const submitForm = (url?: string) => {
+    let studAges = { from: students_age.from, to: students_age.to };
+
+    if (studAges.from < 3) studAges.from = 3;
+
+    if (studAges.to < 3) studAges.to = 3;
+
+    if (studAges.from > studAges.to) {
+      let buf = studAges.from;
+      studAges.from = studAges.to;
+      studAges.to = buf;
+    }
+
     let newCourseData = {
       id: courseId,
       category,
@@ -98,7 +109,7 @@ const CourseForm = observer(() => {
       program,
       program_duration: getYearsString(program_duration),
       recruiting_is_open: recruiting_is_open ? true : false,
-      students_age,
+      students_age: {...studAges},
       teacher_name,
     };
     course
@@ -109,47 +120,49 @@ const CourseForm = observer(() => {
   };
 
   const handleSubmitForm = async () => {
-    let isError = false
+    let isError = false;
     if (name.length === 0) {
-      isError = true
+      isError = true;
       setNameError({ isError: true, errorMessage: 'Название курса не может быть пустым' });
     }
     if (description.length === 0) {
-      isError = true
+      isError = true;
       setDescriptionError({ isError: true, errorMessage: 'Описание не может быть пустым' });
     }
-    if(teacher_name.length === 0) {
-      isError = true
-      setTeacher_nameError({isError: true, errorMessage: 'Это поле не должно быть пустым'})
+    if (teacher_name.length === 0) {
+      isError = true;
+      setTeacher_nameError({ isError: true, errorMessage: 'Это поле не должно быть пустым' });
     }
-    let correctPhone = formatPhoneNumber(contact_phone)
+    let correctPhone = formatPhoneNumber(contact_phone);
     if (correctPhone.length === 0) {
-      isError = true
+      isError = true;
       setContact_phoneError({ isError: true, errorMessage: 'Пожалуйста, введите корректный номер телефона' });
     }
-    let url
+    let url;
     if (imageFile) {
       url = await addImg(courseId, imageFile);
     }
-    if(!(url || course?.image_url)){
-      isError = true
-      setImageError({isError: true, errorMessage: 'Изображение отсутствует'})
+    if (!(url || course?.image_url)) {
+      isError = true;
+      setImageError({ isError: true, errorMessage: 'Изображение отсутствует' });
     }
-    if(location_contact_phone.length > 0){
-      let correctLocationPhone = formatPhoneNumber(location_contact_phone)
+    if (location_contact_phone.length > 0) {
+      let correctLocationPhone = formatPhoneNumber(location_contact_phone);
       if (correctLocationPhone.length === 0) {
-        isError = true
-        setLocation_contact_phoneError({ isError: true, errorMessage: 'Пожалуйста, введите корректный номер телефона' });
+        isError = true;
+        setLocation_contact_phoneError({
+          isError: true,
+          errorMessage: 'Пожалуйста, введите корректный номер телефона',
+        });
       }
     }
 
 
-
-    if(!isError){
-      if(url){
-        submitForm(url)
+    if (!isError) {
+      if (url) {
+        submitForm(url);
       } else {
-        submitForm()
+        submitForm();
       }
     }
   };
@@ -172,7 +185,7 @@ const CourseForm = observer(() => {
               setNameError({ isError: false, errorMessage: '' });
               setName(e.target.value);
             }
-          }} defaultValue={name}/>
+          }} defaultValue={name} />
           {nameError.isError &&
             <FormHelperText id='component-error-text'>{nameError.errorMessage}</FormHelperText>}
         </FormControl>
@@ -180,8 +193,10 @@ const CourseForm = observer(() => {
           Набор
           {/*Набор: {course.recruiting_is_open ? <CheckCircleRoundedIcon color='success'/> : <DoNotDisturbAltRoundedIcon color='error'/> }*/}
         </Typography>
-        <CheckCircleRoundedIcon color={recruiting_is_open ? 'success' : 'disabled'} onClick={()=> setRecruiting_is_open(true)}/>
-        <DoNotDisturbAltRoundedIcon color={recruiting_is_open ? 'disabled' : 'error'} onClick={()=> setRecruiting_is_open(false)}/>
+        <CheckCircleRoundedIcon color={recruiting_is_open ? 'success' : 'disabled'}
+                                onClick={() => setRecruiting_is_open(true)} />
+        <DoNotDisturbAltRoundedIcon color={recruiting_is_open ? 'disabled' : 'error'}
+                                    onClick={() => setRecruiting_is_open(false)} />
         <Typography gutterBottom variant='h5' component='div'>
           Направление
         </Typography>
@@ -199,20 +214,20 @@ const CourseForm = observer(() => {
           Изображение
         </Typography>
         <FormControl error={imageError.isError} variant='standard' sx={{ m: 1, minWidth: 480 }}>
-        <Button
-          variant='contained'
-          component='label'
-        >
-          Добавить изображение
-          <input type='file' hidden onChange={handleFileChange} />
-        </Button>
-        {
-          imageFile ? <Typography gutterBottom variant='caption' component='div'>
-            {imageFile.name}
-          </Typography> : ''
-        }
-        {imageError.isError &&
-          <FormHelperText id='component-error-text'>{imageError.errorMessage}</FormHelperText>}
+          <Button
+            variant='contained'
+            component='label'
+          >
+            Добавить изображение
+            <input type='file' hidden onChange={handleFileChange} />
+          </Button>
+          {
+            imageFile ? <Typography gutterBottom variant='caption' component='div'>
+              {imageFile.name}
+            </Typography> : ''
+          }
+          {imageError.isError &&
+            <FormHelperText id='component-error-text'>{imageError.errorMessage}</FormHelperText>}
         </FormControl>
         <Typography gutterBottom variant='h6' component='div'>
           Контактный телефон
@@ -312,7 +327,7 @@ const CourseForm = observer(() => {
               setTeacher_name(e.target.value);
             }
 
-          }} defaultValue={teacher_name}/>
+          }} defaultValue={teacher_name} />
           {teacher_nameError.isError &&
             <FormHelperText id='component-error-text'>{teacher_nameError.errorMessage}</FormHelperText>}
         </FormControl>
@@ -322,18 +337,23 @@ const CourseForm = observer(() => {
         <FormControl variant='standard' sx={{ m: 1, width: 40 }}>
           <Input type='number' inputProps={{
             min: 3,
-            max: students_age.to
+            max: students_age.to,
           }} placeholder='с' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setStudents_age({ ...students_age, from: Number(e.target.value) });
-          }} defaultValue={students_age.from} />
+            let num = Number(e.target.value);
+            if (num > students_age.to) num = students_age.to;
+            if (num > 35) num = 35;
+            setStudents_age({ ...students_age, from: num });
+          }} defaultValue={students_age.from} value={students_age.from} />
         </FormControl>
         <FormControl variant='standard' sx={{ m: 1, width: 40 }}>
-          <Input type='number'  inputProps={{
+          <Input type='number' inputProps={{
             min: students_age.from,
-            max: 35
-          }}  placeholder='по' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setStudents_age({ ...students_age, to: Number(e.target.value) });
-          }} defaultValue={students_age.to} />
+            max: 35,
+          }} placeholder='по' onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            let num = Number(e.target.value);
+            if (num > 35) num = 35;
+            setStudents_age({ ...students_age, to: num });
+          }} defaultValue={students_age.to} value={students_age.to} />
         </FormControl>
         <Typography gutterBottom variant='h6' component='div'>
           Местонахождение
