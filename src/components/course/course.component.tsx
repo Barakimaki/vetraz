@@ -42,7 +42,7 @@ const Course = ({ course }: Props) => {
           Отделение: {course.department}
         </Typography>
         <Typography variant='body2' color='text.primary'>
-          Возраст обучающихся: {course.students_age_from}-{course.students_age_to}
+          Возраст обучающихся: {course.student_age_from}-{course.student_age_to}
         </Typography>
         <Typography variant='body2' color='text.primary'>
           Продолжительность: {course.program_duration}

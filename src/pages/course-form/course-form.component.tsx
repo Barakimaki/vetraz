@@ -60,8 +60,8 @@ const CourseForm = observer(() => {
 
   let [recruiting_is_open, setRecruiting_is_open] = useState(course?.recruiting_is_open);
 
-  let [students_age_from, setStudents_age_from] = useState(course?.students_age_from || 3);
-  let [students_age_to, setStudents_age_to] = useState(course?.students_age_to ||  35 );
+  let [student_age_from, setStudent_age_from] = useState(course?.student_age_from || 3);
+  let [student_age_to, setStudent_age_to] = useState(course?.student_age_to ||  35 );
 
   let [teacher_name, setTeacher_name] = useState(course?.teacher_name || '');
   let [teacher_nameError, setTeacher_nameError] = useState({ isError: false, errorMessage: '' });
@@ -80,8 +80,8 @@ const CourseForm = observer(() => {
   };
 
   const submitForm = (url?: string) => {
-    let studs_age_from = students_age_from
-    let studs_age_to = students_age_to
+    let studs_age_from = student_age_from
+    let studs_age_to = student_age_to
 
     if (studs_age_from < 3) studs_age_from = 3;
 
@@ -111,8 +111,8 @@ const CourseForm = observer(() => {
       program,
       program_duration: getYearsString(program_duration),
       recruiting_is_open: !!recruiting_is_open,
-      students_age_from: studs_age_from,
-      students_age_to: studs_age_to,
+      student_age_from: studs_age_from,
+      student_age_to: studs_age_to,
       teacher_name,
     };
     course
@@ -340,23 +340,23 @@ const CourseForm = observer(() => {
         <FormControl variant='standard' sx={{ m: 1, width: 40 }}>
           <Input type='number' inputProps={{
             min: 3,
-            max: students_age_to,
+            max: student_age_to,
           }} placeholder='с' onChange={(e: ChangeEvent<HTMLInputElement>) => {
             let num = Number(e.target.value);
-            if (num > students_age_to) num = students_age_to;
+            if (num > student_age_to) num = student_age_to;
             if (num > 35) num = 35;
-            setStudents_age_from(num);
-          }} defaultValue={students_age_from} value={students_age_from} />
+            setStudent_age_from(num);
+          }} defaultValue={student_age_from} value={student_age_from} />
         </FormControl>
         <FormControl variant='standard' sx={{ m: 1, width: 40 }}>
           <Input type='number' inputProps={{
-            min: students_age_from,
+            min: student_age_from,
             max: 35,
           }} placeholder='по' onChange={(e: ChangeEvent<HTMLInputElement>) => {
             let num = Number(e.target.value);
             if (num > 35) num = 35;
-            setStudents_age_to(num);
-          }} defaultValue={students_age_to} value={students_age_to} />
+            setStudent_age_to(num);
+          }} defaultValue={student_age_to} value={student_age_to} />
         </FormControl>
         <Typography gutterBottom variant='h6' component='div'>
           Местонахождение
