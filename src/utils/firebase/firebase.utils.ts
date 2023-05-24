@@ -33,7 +33,6 @@ firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASURE_ID,
 };
-if(process){
   if(process.env.NETLIFY === 'true'){
     firebaseConfig = {
       apiKey: process.env.VITE_FIREBASE_API_KEY,
@@ -45,7 +44,6 @@ if(process){
       measurementId: process.env.VITE_FIREBASE_MEASURE_ID,
     };
   }
-}
 
 
 const app = initializeApp(firebaseConfig);
