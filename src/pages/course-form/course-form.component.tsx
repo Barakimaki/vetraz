@@ -101,7 +101,6 @@ const CourseForm = observer(() => {
       students_age,
       teacher_name,
     };
-    console.log(newCourseData);
     course
       ? coursesStore.updateCourse(newCourseData as ICourse, oldCategory)
       : coursesStore.addCourse(newCourseData as ICourse);
