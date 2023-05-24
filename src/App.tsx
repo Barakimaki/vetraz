@@ -4,7 +4,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import Courses from './pages/courses/courses.component';
 import SignIn from './pages/sign-in/sign-in.component';
-import Schedule from './pages/schedule/schedule.component';
+// import Schedule from './pages/schedule/schedule.component';
 import CourseForm from './pages/course-form/course-form.component';
 import Categories from './pages/categories/categories.component';
 import IconButton from '@mui/material/IconButton';
