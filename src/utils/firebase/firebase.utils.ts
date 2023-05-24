@@ -98,10 +98,8 @@ export const addCourseArray = async (course: ICourse) => {
     program: course.program,
     program_duration: course.program_duration,
     recruiting_is_open: course.recruiting_is_open,
-    students_age: {
-      from: course.students_age.from,
-      to: course.students_age.to,
-    },
+    students_age_from: course.students_age_from,
+    students_age_to: course.students_age_to,
     teacher_name: course.teacher_name
   })
 };

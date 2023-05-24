@@ -16,10 +16,8 @@ export interface ICourse {
   program: string;
   program_duration: string;
   recruiting_is_open: boolean;
-  students_age: {
-    from: number;
-    to: number;
-  };
+  students_age_from: number;
+  students_age_to: number;
   teacher_name: string;
 }
 
