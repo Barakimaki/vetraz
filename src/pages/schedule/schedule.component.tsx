@@ -36,7 +36,7 @@ const Schedule = observer(() => {
 
   return (
     <div className={style.container}>
-      <Button variant='contained' onClick={() => navigate('/')}>Назад</Button>
+      <Button variant='contained' onClick={() => navigate(-1)}>Назад</Button>
       <h1>{course?.name}</h1>
       {schedule && schedule.map((group, groupIndex) => {
         return <Group group={group} groupIndex={groupIndex} />;

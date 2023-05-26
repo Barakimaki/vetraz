@@ -165,7 +165,7 @@ const CourseForm = observer(() => {
 
   return (
     <div className={style.container}>
-      <Button variant='contained' onClick={() => navigate('/')}>
+      <Button variant='contained' onClick={() => navigate(-1)}>
         Назад
       </Button>
       <form action='' className={style.form}>
