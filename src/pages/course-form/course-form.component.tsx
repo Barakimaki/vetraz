@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FormHelperText, Typography, Input, TextField, Button } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -18,18 +18,10 @@ import DoNotDisturbAltRoundedIcon from '@mui/icons-material/DoNotDisturbAltRound
 const CourseForm = observer(() => {
 
   const navigate = useNavigate();
-  let oldCategory = '';
-  let id: string = '';
   let params = useParams();
-  if (params.id) {
-    id = params.id;
-  }
-  if (params.category) {
-    oldCategory = params.category;
-  }
 
-
-  let course = coursesStore.courses.find(course => course.id === id);
+  let [oldCategory, setOldCategory] = useState(params.category || '');
+  let [course, setCourse] = useState(coursesStore.courses.find(course => course.id === params.id));
 
 
   let [category, setCategory] = useState(course?.category || categoriesKeys[0]);
@@ -61,7 +53,7 @@ const CourseForm = observer(() => {
   let [recruiting_is_open, setRecruiting_is_open] = useState(course?.recruiting_is_open);
 
   let [student_age_from, setStudent_age_from] = useState(course?.student_age_from || 3);
-  let [student_age_to, setStudent_age_to] = useState(course?.student_age_to ||  35 );
+  let [student_age_to, setStudent_age_to] = useState(course?.student_age_to || 35);
 
   let [teacher_name, setTeacher_name] = useState(course?.teacher_name || '');
   let [teacher_nameError, setTeacher_nameError] = useState({ isError: false, errorMessage: '' });
@@ -80,8 +72,8 @@ const CourseForm = observer(() => {
   };
 
   const submitForm = (url?: string) => {
-    let studs_age_from = student_age_from
-    let studs_age_to = student_age_to
+    let studs_age_from = student_age_from;
+    let studs_age_to = student_age_to;
 
     if (studs_age_from < 3) studs_age_from = 3;
 
@@ -119,7 +111,7 @@ const CourseForm = observer(() => {
       ? coursesStore.updateCourse(newCourseData as ICourse, oldCategory)
       : coursesStore.addCourse(newCourseData as ICourse);
 
-    navigate('/');
+    navigate(-1);
   };
 
   const handleSubmitForm = async () => {

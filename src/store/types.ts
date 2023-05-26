@@ -39,12 +39,6 @@ export interface ILesson {
   to: string;
 }
 
-export type Common = {
-  categories: string[],
-  addresses: string[],
-  paymentTerms: string[]
-}
-
 
 export const categories = [
   ['art_creativity', 'ИЗОБРАЗИТЕЛЬНОЕ ТВОРЧЕСТВО'],
@@ -90,3 +84,24 @@ export const categoriesValues = [
   'СПОРТИВНОЕ НАПРАВЛЕНИЕ',
   'ТЕХНИЧЕСКОЕ ТВОРЧЕСТВО',
 ];
+export type tDays = ['monday_lessons',
+  'tuesday_lessons',
+  'wednesday_lessons',
+  'thursday_lessons',
+  'friday_lessons',
+  'saturday_lessons',
+  'sunday_lessons']
+export type dayKey = 'monday_lessons' |
+  'tuesday_lessons' |
+  'wednesday_lessons' |
+  'thursday_lessons' |
+  'friday_lessons' |
+  'saturday_lessons' |
+  'sunday_lessons'
+export const daysKeys: tDays = ['monday_lessons',
+  'tuesday_lessons',
+  'wednesday_lessons',
+  'thursday_lessons',
+  'friday_lessons',
+  'saturday_lessons',
+  'sunday_lessons'];

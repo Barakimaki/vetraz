@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction, toJS } from 'mobx';
 import {
   addCourseArray,
   editCourseArray,
@@ -30,9 +30,6 @@ class Courses {
   async addCourse(course: ICourse) {
     try {
       await addCourseArray(course);
-      // runInAction(() => {
-      //   this.courses.push(course);
-      // });
     } catch (e) {
       console.log(e);
     }
@@ -60,6 +57,11 @@ class Courses {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  getCourse(courseId: string){
+    let course = this.courses.find(course => course.id === courseId)
+    return toJS(course)
   }
 
 }

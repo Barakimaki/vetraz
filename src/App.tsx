@@ -4,7 +4,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import Courses from './pages/courses/courses.component';
 import SignIn from './pages/sign-in/sign-in.component';
-// import Schedule from './pages/schedule/schedule.component';
+import Schedule from './pages/schedule/schedule.component';
 import CourseForm from './pages/course-form/course-form.component';
 import Categories from './pages/categories/categories.component';
 
@@ -24,7 +24,7 @@ const App = observer(() => {
             <Route path='/courses/:category' element={<Courses />} />
             <Route path='/edit/:category/:id' element={<CourseForm />} />
             <Route path='/add' element={<CourseForm />} />
-            {/*<Route path='/schedule/:id' element={<Schedule />} />*/}
+            <Route path='/schedule/:id' element={<Schedule />} />
           </>
           :
           <Route path='/*' element={<SignIn />} />
