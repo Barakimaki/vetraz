@@ -22,7 +22,7 @@ export interface ICourse {
 }
 
 export interface IGroup {
-  group_name: string,
+  group_name: string;
   weekly_schedule: {
     monday_lessons?: string[]
     tuesday_lessons?: string[]
@@ -31,12 +31,19 @@ export interface IGroup {
     friday_lessons?: string[]
     saturday_lessons?: string[]
     sunday_lessons?: string[]
-  }
+  };
 }
 
-export interface ILesson {
-  from: string;
-  to: string;
+export interface IApplication {
+  key: string;
+  address: string;
+  birthday: string;
+  contactPhone: string;
+  courseName: string;
+  email: string;
+  name: string;
+  schoolName: string;
+  surname: string;
 }
 
 

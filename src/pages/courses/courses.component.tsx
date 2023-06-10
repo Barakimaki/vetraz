@@ -1,4 +1,4 @@
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import coursesStore from '../../store/courses';
 import styles from './courses.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,10 +15,10 @@ const Courses = observer(() => {
   if (params.category) {
     category = params.category;
   }
-  let courses = coursesStore.courses
+  let courses = coursesStore.courses;
   useEffect(() => {
-    if(category) {
-      coursesStore.getCoursesState(category)
+    if (category) {
+      coursesStore.getCoursesState(category);
     }
   }, [category]);
 
@@ -34,7 +34,7 @@ const Courses = observer(() => {
         </IconButton>
       </div>
       <Typography className={styles.category} gutterBottom variant='h5' component='div'>
-        {categories[categories.findIndex(([cat, nam]) => cat === category )][1]}
+        {categories[categories.findIndex(([cat, nam]) => cat === category)][1]}
       </Typography>
       <Button onClick={() => navigate('/')}>НА ГЛАВНУЮ</Button>
       <div className={styles.courses}>

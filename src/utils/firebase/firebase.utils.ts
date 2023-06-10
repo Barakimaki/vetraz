@@ -7,14 +7,14 @@ import {
   collection,
   getDocs,
   setDoc,
-  deleteDoc
+  deleteDoc,
 } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { IGroup, ICourse } from '../../store/types';
+import { IGroup, ICourse, IApplication } from '../../store/types';
 import firebase from 'firebase/compat';
 
 
-let firebaseConfig
+let firebaseConfig;
 firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -63,15 +63,27 @@ export const getCoursesState = async (category: string) => {
   const q = query(collection(db, 'categories', category, 'courses'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    courses.push({category: category, ...doc.data() } as ICourse);
+    courses.push({ category: category, ...doc.data() } as ICourse);
   });
-
   return courses;
 };
 
+export const getApplicationState = async () => {
+  let applications: IApplication[] = [];
+  let q = query(collection(db, 'applications'));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc)=>{
+    applications.push({key: doc.id, ...doc.data()} as IApplication)
+  })
+  console.log(applications);
+  return applications;
+};
+
+export const deleteApplication = async (key: string) =>{
+  await deleteDoc(doc(db, 'applications', key));
+}
 
 export const addImg = async (id: string, imageFile: File | null): Promise<string | void> => {
-
   const imageRef = ref(storage, id);
   if (imageFile) {
     await uploadBytes(imageRef, imageFile);
@@ -100,29 +112,23 @@ export const addCourseArray = async (course: ICourse) => {
     recruiting_is_open: course.recruiting_is_open,
     student_age_from: course.student_age_from,
     student_age_to: course.student_age_to,
-    teacher_name: course.teacher_name
-  })
+    teacher_name: course.teacher_name,
+  });
 };
 
 export const editCourseArray = async (updatedCourse: ICourse, oldCategory: string) => {
-
   const collectionRef = collection(db, 'categories', oldCategory, 'courses');
-  await deleteDoc(doc(collectionRef, updatedCourse.id))
-
-  await addCourseArray(updatedCourse)
-
+  await deleteDoc(doc(collectionRef, updatedCourse.id));
+  await addCourseArray(updatedCourse);
 };
 
 export const removeCourseArray = async (course: ICourse, isDeleteImage: boolean) => {
-
   if (course.image_url && isDeleteImage) {
     const imageRef = ref(storage, course.id);
     await deleteObject(imageRef);
   }
-
   const collectionRef = collection(db, 'categories', course.category, 'courses');
-  await deleteDoc(doc(collectionRef, course.id))
-
+  await deleteDoc(doc(collectionRef, course.id));
 };
 
 

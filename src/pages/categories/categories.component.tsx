@@ -1,9 +1,10 @@
 import styles from './categories.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { categories } from '../../store/types';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import React from 'react';
 
 const Categories = () => {
 
@@ -16,6 +17,9 @@ const Categories = () => {
             navigate('/add');
           }} />
         </IconButton>
+        <Button variant='contained' onClick={() => navigate('/applications')}>
+          Заявки
+        </Button>
       </div>
       <div className={styles.categories}>
 

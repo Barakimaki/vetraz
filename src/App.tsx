@@ -7,12 +7,12 @@ import SignIn from './pages/sign-in/sign-in.component';
 import Schedule from './pages/schedule/schedule.component';
 import CourseForm from './pages/course-form/course-form.component';
 import Categories from './pages/categories/categories.component';
+import Applications from './pages/applications/applications.component';
 
 
 const App = observer(() => {
 
   const navigate = useNavigate();
-
   return (
     <div className='App'>
 
@@ -25,6 +25,7 @@ const App = observer(() => {
             <Route path='/edit/:category/:id' element={<CourseForm />} />
             <Route path='/add' element={<CourseForm />} />
             <Route path='/schedule/:id' element={<Schedule />} />
+            <Route path='/applications' element={<Applications />} />
           </>
           :
           <Route path='/*' element={<SignIn />} />
