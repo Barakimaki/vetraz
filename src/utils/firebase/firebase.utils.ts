@@ -10,8 +10,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { IGroup, ICourse, IApplication } from '../../store/types';
-import firebase from 'firebase/compat';
+import { ICourse, IApplication } from '../../store/types';
 
 
 let firebaseConfig;
