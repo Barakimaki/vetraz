@@ -1,4 +1,4 @@
-import { IApplication, ICourse } from './types';
+import { IApplication} from './types';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { getApplicationState, deleteApplication } from '../utils/firebase/firebase.utils';
 
